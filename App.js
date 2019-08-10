@@ -1,27 +1,16 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-import React, { Fragment } from "react";
-import { StatusBar } from "react-native";
+import { createStackNavigator, createAppContainer } from "react-navigation";
+
 import Login from "./app/pages/Login";
+import Home from "./app/pages/Home";
 
-import { SafeAreaView, ScrollView } from "react-native";
+const MainNavigator = createStackNavigator(
+  {
+    Login: Login,
+    Home: Home
+  },
+  {
+    initialRouteName: "Login"
+  }
+);
 
-const App = () => {
-  return (
-    <Fragment>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView contentInsetAdjustmentBehavior="automatic">
-          <Login />
-        </ScrollView>
-      </SafeAreaView>
-    </Fragment>
-  );
-};
-
-export default App;
+export default createAppContainer(MainNavigator);

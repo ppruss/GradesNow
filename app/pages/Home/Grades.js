@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Text, FlatList, Button, RefreshControl } from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
+import { FlatList, RefreshControl } from "react-native";
 
 import GradesItem from "./GradesItem";
 
@@ -13,10 +14,12 @@ const Grades = () => {
 
   const refreshList = async () => {
     setRefreshing(true);
+    const token = await AsyncStorage.getItem("token");
     const res = await fetch("http://10.0.2.2:3000/grades", {
       method: "GET",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "x-auth-token": token
       }
     });
     var responseData = await res.json();

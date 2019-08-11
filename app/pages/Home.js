@@ -1,8 +1,4 @@
-import {
-  createAppContainer,
-  createMaterialTopTabNavigator,
-  createBottomTabNavigator
-} from "react-navigation";
+import { createAppContainer, createBottomTabNavigator } from "react-navigation";
 import Grades from "./Home/Grades";
 import Statistics from "./Home/Statistics";
 import AddGrades from "./Home/AddGrades";

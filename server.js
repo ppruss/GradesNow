@@ -9,9 +9,12 @@ const database = JSON.parse(fs.readFileSync("./db.json", "UTF-8"));
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
+// TODO: move to secure location
 const SECRET_KEY = "123456789";
 const expiresIn = "1h";
 
+// Authentication
+// All other requests are handled by the default json-server endpoints
 server.post("/login", (req, res) => {
   const { email, password } = req.body;
   if (
@@ -28,25 +31,28 @@ server.post("/login", (req, res) => {
   }
 });
 
-// server.use(/^(?!\/login).*$/, (req, res, next) => {
-//   if (!req.header("x-auth-token")) {
-//     const status = 401;
-//     const message = "Bad authorization header";
-//     res.status(status).json({ status, message });
-//     return;
-//   }
-//   try {
-//     jwt.verify(req.header("x-auth-token"), SECRET_KEY);
-//     next();
-//   } catch (err) {
-//     const status = 401;
-//     const message = "Error: access_token is not valid";
-//     res.status(status).json({ status, message });
-//   }
-// });
+// Middleware to check for json token
+// on all paths except the login
+server.use(/^(?!\/login).*$/, (req, res, next) => {
+  if (!req.header("x-auth-token")) {
+    const status = 401;
+    const message = "Bad authorization header";
+    res.status(status).json({ status, message });
+    return;
+  }
+  try {
+    jwt.verify(req.header("x-auth-token"), SECRET_KEY);
+    next();
+  } catch (err) {
+    const status = 401;
+    const message = "Error: access_token is not valid";
+    res.status(status).json({ status, message });
+  }
+});
 
+// Dummy to check for the token
+// TODO: return user matching the token
 server.post("/authenticate", (req, res) => {
-  //const valid = jwt.verify(req.headers.authorization.split(" ")[1]);
   res.status(200).json({ login: "success" });
 });
 

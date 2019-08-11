@@ -17,7 +17,7 @@ const Login = ({ navigation }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        authorization: token
+        "x-auth-token": token
       }
     });
     var responseData = await res.json();

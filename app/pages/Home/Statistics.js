@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Text, StyleSheet, Dimensions } from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
 import { BarChart } from "react-native-chart-kit";
 
 const Statistics = () => {
@@ -40,10 +41,12 @@ const Statistics = () => {
   };
 
   const refreshList = async () => {
+    const token = await AsyncStorage.getItem("token");
     const res = await fetch("http://10.0.2.2:3000/grades", {
       method: "GET",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "x-auth-token": token
       }
     });
     var responseData = await res.json();

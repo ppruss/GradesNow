@@ -1,12 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  Button,
-  AsyncStorage
-} from "react-native";
+import { StyleSheet, View, Text, TextInput, Button } from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const Login = ({ navigation }) => {
   const [name, setName] = useState();
@@ -27,9 +21,8 @@ const Login = ({ navigation }) => {
       }
     });
     var responseData = await res.json();
-    setPassword(responseData.login);
 
-    if (responseData.login == "success") {
+    if (responseData && responseData.login && responseData.login == "success") {
       navigation.navigate("Home");
     }
   };
@@ -70,6 +63,7 @@ const Login = ({ navigation }) => {
         <TextInput
           placeholder="Your password..."
           placeholderTextColor="#ccc"
+          secureTextEntry={true}
           value={password}
           onChangeText={value => setPassword(value)}
         />
@@ -88,34 +82,6 @@ const styles = StyleSheet.create({
   body: {
     marginTop: 32,
     paddingHorizontal: 24
-  },
-
-  engine: {
-    position: "absolute",
-    right: 0
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: "600"
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: "400"
-  },
-  highlight: {
-    fontWeight: "700"
-  },
-  footer: {
-    fontSize: 12,
-    fontWeight: "600",
-    padding: 4,
-    paddingRight: 12,
-    textAlign: "right"
   }
 });
 

@@ -28,6 +28,23 @@ server.post("/login", (req, res) => {
   }
 });
 
+// server.use(/^(?!\/login).*$/, (req, res, next) => {
+//   if (!req.header("x-auth-token")) {
+//     const status = 401;
+//     const message = "Bad authorization header";
+//     res.status(status).json({ status, message });
+//     return;
+//   }
+//   try {
+//     jwt.verify(req.header("x-auth-token"), SECRET_KEY);
+//     next();
+//   } catch (err) {
+//     const status = 401;
+//     const message = "Error: access_token is not valid";
+//     res.status(status).json({ status, message });
+//   }
+// });
+
 server.post("/authenticate", (req, res) => {
   //const valid = jwt.verify(req.headers.authorization.split(" ")[1]);
   res.status(200).json({ login: "success" });

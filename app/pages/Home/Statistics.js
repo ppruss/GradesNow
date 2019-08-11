@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Text } from "react-native";
+import { Text, StyleSheet, Dimensions } from "react-native";
 import { BarChart } from "react-native-chart-kit";
 
 const Statistics = () => {
   const [grades, setGrades] = useState();
-  const [totalCredits, setTotalCredits] = useState();
-  const [averageGrade, setAverageGrade] = useState();
+  const [totalCredits, setTotalCredits] = useState(0);
+  const [averageGrade, setAverageGrade] = useState(0);
   const [gradeAmounts, setGradeAmounts] = useState([0, 0, 0, 0, 0]);
 
   const barData = {
@@ -31,10 +31,11 @@ const Statistics = () => {
     setGradeAmounts([counts[1], counts[2], counts[3], counts[4], counts[5]]);
   };
 
+  // Bar Chart Configuration
   const chartConfig = {
-    backgroundGradientFrom: "#1E2923",
-    backgroundGradientTo: "#08130D",
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    backgroundGradientFrom: "#139",
+    backgroundGradientTo: "#29d",
+    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
     strokeWidth: 2 // optional, default 3
   };
 
@@ -59,22 +60,33 @@ const Statistics = () => {
     avgGrade /= responseData.length;
 
     setTotalCredits(sumCredits);
-    setAverageGrade(avgGrade);
+    setAverageGrade(avgGrade.toFixed(1));
   };
 
   return (
     <Fragment>
-      <Text>Total Credits: {totalCredits}</Text>
-      <Text>Average Grade: {averageGrade}</Text>
+      <Text style={styles.big}>Total Credits: {totalCredits}</Text>
+      <Text style={styles.big}>Average Grade: {averageGrade}</Text>
       <BarChart
-        // style={graphStyle}
+        style={styles.chart}
         data={barData}
-        width={400}
+        width={Dimensions.get("window").width}
         height={420}
         chartConfig={chartConfig}
       />
     </Fragment>
   );
 };
+
+const styles = StyleSheet.create({
+  big: {
+    fontWeight: "bold",
+    fontSize: 16,
+    margin: 10
+  },
+  chart: {
+    marginTop: 20
+  }
+});
 
 export default Statistics;

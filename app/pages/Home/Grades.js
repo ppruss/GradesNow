@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Text, FlatList, Button, RefreshControl } from "react-native";
 
+import GradesItem from "./GradesItem";
+
 const Grades = () => {
   const [grades, setGrades] = useState();
   const [refreshing, setRefreshing] = useState();
@@ -24,17 +26,12 @@ const Grades = () => {
 
   return (
     <Fragment>
-      <Button title="Refresh" onPress={refreshList} />
       <FlatList
         data={grades}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={refreshList} />
         }
-        renderItem={({ item }) => (
-          <Text>
-            {item.name} {item.grade} {item.credits} {item.status}
-          </Text>
-        )}
+        renderItem={({ item }) => <GradesItem item={item} />}
       />
     </Fragment>
   );
